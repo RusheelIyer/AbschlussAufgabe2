@@ -1,10 +1,35 @@
 package edu.kit.informatik;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Sport {
     
     private static ArrayList<Sport> sports = new ArrayList<Sport>();
+    /**
+     * Create comparator to sort the sports in the array list alphabetically according to 
+     * the type of sport, otherwise discipline, if type is the same.
+     */
+    private static Comparator<Sport> comparator = new Comparator<Sport>() {
+        
+        @Override
+        public int compare(Sport sportOne, Sport sportTwo) {
+            
+            if (sportOne.sportType.compareTo(sportTwo.sportType) < 0) {
+                return -1;
+            } else if (sportOne.sportType.compareTo(sportTwo.sportType) == 0) {
+                if (sportOne.discipline.compareTo(sportTwo.discipline) < 0) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            } else {
+                return 1;
+            }
+            
+        }
+    };
+    
     private String sportType;
     private String discipline;
     
@@ -29,10 +54,10 @@ public class Sport {
             
             if (sportExists) {
                 throw new IllegalArgumentException();
-            } else {
-                this.sportType = sportType;
-                this.discipline = discipline;
             }
+            
+            this.sportType = sportType;
+            this.discipline = discipline;
             
             sports.add(this);
             
@@ -48,6 +73,16 @@ public class Sport {
      */
     public static ArrayList<Sport> getSports() {
         return sports;
+    }
+    
+    /**
+     * get a list of the sports added so far 
+     */
+    public static void listSports() {
+        sports.sort(comparator);
+        for (int i = 0; i < sports.size(); i++) {
+            Terminal.printLine(sports.get(i).sportType + " " + sports.get(i).discipline);
+        }
     }
     
     /**
