@@ -68,9 +68,15 @@ public class Competition {
                 this.silver = (silver == 1) ? true : false;
                 this.bronze = (bronze == 1) ? true : false;
                 
-                this.athlete.addGold();
-                this.athlete.addSilver();
-                this.athlete.addBronze();
+                if (this.gold) {
+                    this.athlete.addGold();
+                }
+                if (this.silver) {
+                    this.athlete.addSilver();
+                }
+                if (this.bronze) {
+                    this.athlete.addBronze();
+                }
             }
             
         } catch (IllegalArgumentException e) {
