@@ -1,10 +1,36 @@
 package edu.kit.informatik;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Venue {
     
     private static ArrayList<Venue> venues = new ArrayList<Venue>();
+    /**
+     * Create comparator to sort the venues in the array list according to capacity if unequal,
+     * otherwise by id
+     */
+    private static Comparator<Venue> comparator = new Comparator<Venue>() {
+        
+        @Override
+        public int compare(Venue venueOne, Venue venueTwo) {
+            
+            if (venueOne.capacity < venueTwo.capacity) {
+                return -1;
+            } else if (venueOne.capacity == venueTwo.capacity) {
+                if (venueOne.id < venueTwo.id) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            } else {
+                return 1;
+            }
+            
+        }
+        
+    };
+    
     private String location;
     @SuppressWarnings("unused")
     private short openingYear;
@@ -73,10 +99,11 @@ public class Venue {
     }
     
     /**
-     * get a list of the venues added so far
+     * get a list of the venues in a specified country 
      * 
+     * @param countryName represents the country, of whose venues are to be listed
      */
-    public static void listVenues() {
+    public static void listVenues(String countryName) {
         
         try {
             
