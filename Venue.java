@@ -8,7 +8,6 @@ public class Venue {
     private String location;
     @SuppressWarnings("unused")
     private short openingYear;
-    @SuppressWarnings("unused")
     private IOC country;
     @SuppressWarnings("unused")
     private String venueName;
@@ -78,10 +77,35 @@ public class Venue {
      * 
      */
     public static void listVenues() {
-        venues.sort(comparator);
-        for (int i = 0; i < venues.size(); i++) {
-            Terminal.printLine("(" + i + 1 + " " + String.format("%03d", venues.get(i).id)
-            + " " + venues.get(i).location + " " + venues.get(i).capacity);
+        
+        try {
+            
+            boolean countryExists = false;
+            for (int i = 0; i < IOC.getCountries().size(); i++) {
+                if (IOC.getCountries().get(i).getCountryName().equals(countryName)) {
+                    countryExists = true;
+                }
+            }
+            
+            if (!countryExists) {
+                throw new IllegalArgumentException();
+            }
+            
+            ArrayList<Venue> countryVenues = new ArrayList<Venue>();
+            
+            for (int i = 0; i < venues.size(); i++) {
+                if (venues.get(i).country.equals(countryName)) {
+                    countryVenues.add(venues.get(i));
+                }
+            }
+            
+            countryVenues.sort(comparator);
+            for (int i = 0; i < countryVenues.size(); i++) {
+                Terminal.printLine("(" + i + 1 + " " + String.format("%03d", countryVenues.get(i).id)
+                + " " + countryVenues.get(i).location + " " + countryVenues.get(i).capacity);
+            }
+        } catch (IllegalArgumentException e) {
+            Terminal.printError("Please enter a valid country name");
         }
     }
 }
