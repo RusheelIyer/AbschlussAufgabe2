@@ -6,8 +6,11 @@ public class Venue {
     
     private static ArrayList<Venue> venues = new ArrayList<Venue>();
     private String location;
+    @SuppressWarnings("unused")
     private short openingYear;
+    @SuppressWarnings("unused")
     private IOC country;
+    @SuppressWarnings("unused")
     private String venueName;
     private int capacity;
     private short id;
@@ -73,10 +76,12 @@ public class Venue {
     /**
      * get a list of the venues added so far
      * 
-     * @return list of venues
      */
-    public static ArrayList<Venue> getVenues(){
-        return venues;
+    public static void listVenues() {
+        venues.sort(comparator);
+        for (int i = 0; i < venues.size(); i++) {
+            Terminal.printLine("(" + i + 1 + " " + String.format("%03d", venues.get(i).id)
+            + " " + venues.get(i).location + " " + venues.get(i).capacity);
+        }
     }
-
 }
