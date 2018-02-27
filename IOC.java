@@ -28,10 +28,16 @@ public class IOC {
                         throw new IllegalArgumentException();
                     }
                 }
-                this.id = Short.parseShort(id);
             } else {
                 throw new IllegalArgumentException();
             }
+            
+            for (int i = 0; i < countries.size(); i++) {
+                if (countries.get(i).id == Short.parseShort(id)) {
+                    throw new IllegalArgumentException();
+                }
+            }
+            this.id = Short.parseShort(id);
             
             for (int i = 0; i < countries.size(); i++) {
                 if (countries.get(i).code.equals(code)) {
