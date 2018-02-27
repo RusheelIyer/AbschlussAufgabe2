@@ -59,6 +59,9 @@ public class Venue {
                 throw new IllegalArgumentException();
             }
             
+            if (capacity < 0) {
+                throw new IllegalArgumentException();
+            }
             this.capacity = capacity;
             venues.add(this);
             
