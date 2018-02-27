@@ -99,6 +99,15 @@ public class Venue {
     }
     
     /**
+     * get the list of venues created so far
+     * 
+     * @return list of venues
+     */
+    public static ArrayList<Venue> getVenues() {
+        return venues;
+    }
+    
+    /**
      * get a list of the venues in a specified country 
      * 
      * @param countryName represents the country, of whose venues are to be listed
