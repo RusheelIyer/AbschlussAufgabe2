@@ -3,9 +3,13 @@ package edu.kit.informatik;
 public class Competition {
     
     private Athlete athlete;
+    @SuppressWarnings("unused")
     private short year;
+    @SuppressWarnings("unused")
     private boolean gold;
+    @SuppressWarnings("unused")
     private boolean silver;
+    @SuppressWarnings("unused")
     private boolean bronze;
     
     /**
