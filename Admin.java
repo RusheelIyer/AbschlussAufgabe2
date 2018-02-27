@@ -23,7 +23,12 @@ public class Admin extends Person {
         try {
             
             if (username.length() >= 4 && username.length() <= 8) {
-                this.username = username;   
+                for (int i = 0; i < admins.size(); i++) {
+                    if (admins.get(i).username.equals(username)) {
+                        throw new IllegalArgumentException();
+                    }
+                    this.username = username;
+                }
             } else {
                 throw new IllegalArgumentException();
             }
