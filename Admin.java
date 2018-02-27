@@ -45,6 +45,33 @@ public class Admin extends Person {
         }
         
     }
+
+    /**
+     * get the list of creaed admins
+     * 
+     * @return the list of admins
+     */
+    public static ArrayList<Admin> getAdmins() {
+        return admins;
+    }
+    
+    /**
+     * Method to login the admin
+     * 
+     * @param username represents the username of the admin attempting to login
+     * @param password represents the password of the admin attempting to login
+     * @return the admin with the corresponding username and password
+     */
+    public Admin loginAdmin(String username, String password) {
+        Admin admin = null;
+        for (int i = 0; i < admins.size(); i++) {
+            if (admins.get(i).username.equals(username) && admins.get(i).equals(password)) {
+                admin = admins.get(i);
+                break;
+            }
+        }
+        return admin;
+    }
     
     /**
      * Getter method for the admin's username
