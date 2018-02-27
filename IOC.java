@@ -22,7 +22,7 @@ public class IOC {
      */
     public IOC(String id, String code, String countryName, String establishmentYear) {
         try {
-            if (id.matches("[0-9]{3}")) {
+            if (id.matches("[0-9]{3}") && Short.parseShort(id) >= 1) {
                 for (int i = 0; i < countries.size(); i++) {
                     if (countries.get(i).id == Short.parseShort(id)) {
                         throw new IllegalArgumentException();

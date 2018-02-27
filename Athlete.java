@@ -26,7 +26,7 @@ public class Athlete extends Person {
         super(firstName, lastName);
         try {
             
-            if (id.matches("[0-9]{4}")) {
+            if (id.matches("[0-9]{4}") && Short.parseShort(id) >= 1) {
                 for (int i = 0; i < athletes.size(); i++) {
                     if (athletes.get(i).id == Short.parseShort(id)) {
                         throw new IllegalArgumentException();
