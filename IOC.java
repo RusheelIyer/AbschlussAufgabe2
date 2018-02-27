@@ -1,10 +1,35 @@
 package edu.kit.informatik;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class IOC {
     
     private static ArrayList<IOC> countries = new ArrayList<IOC>();
+    /**
+     * Create comparator to sort the countries in the array list ascending according to 
+     * the year that they were established or their ID, if the establishment years
+     * are the same
+     */
+    private static Comparator<IOC> comparator = new Comparator<IOC>() {
+        
+        @Override
+        public int compare(IOC countryOne, IOC countryTwo) {
+            
+            if (countryOne.establishmentYear < countryTwo.establishmentYear) {
+                return -1;
+            } else if (countryOne.establishmentYear == countryTwo.establishmentYear) {
+                if (countryOne.id < countryTwo.id) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            } else {
+                return 1;
+            }
+        }  
+    };
+    
     private short id;
     private String code;
     private String countryName;
@@ -39,6 +64,9 @@ public class IOC {
             }
             this.id = Short.parseShort(id);
             
+            if (code.length() != 3) {
+                throw new IllegalArgumentException();
+            }
             for (int i = 0; i < countries.size(); i++) {
                 if (countries.get(i).code.equals(code)) {
                     throw new IllegalArgumentException();
@@ -73,6 +101,19 @@ public class IOC {
      */
     public static ArrayList<IOC> getCountries() {
         return countries;
+    }
+    
+    /**
+     * list all the IOC codes created so far
+     */
+    public static void listIOC() {
+        countries.sort(comparator);
+        
+        for (int i = 0; i < countries.size(); i++) {
+            Terminal.printLine(String.format("%04d", countries.get(i).establishmentYear) + " "
+                    + String.format("%03d", countries.get(i).id) + " " 
+                    + countries.get(i).code + " " + countries.get(i).countryName);
+        }
     }
     
     /**
