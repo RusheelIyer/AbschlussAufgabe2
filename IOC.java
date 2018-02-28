@@ -123,6 +123,7 @@ public class IOC {
             }
             
             countries.add(this);
+            Terminal.printLine("OK");
             
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter valid IOC information");
