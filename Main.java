@@ -20,10 +20,7 @@ public class Main {
                 String[] params = (command.length > 1) ? command[1].split(";") : null;
                 switch (command[0]) {
                 case "add-admin":
-                    if (loggedIn || params == null || params.length != 4) {
-                        throw new IllegalArgumentException();
-                    }
-                    new Admin(params[0], params[1], params[2], params[3]);
+                    addAdmin(loggedIn, params);
                     break;
                 case "login-admin":
                     if (loggedIn == true || params == null | params.length != 2) {
@@ -118,6 +115,20 @@ public class Main {
             } catch (IllegalArgumentException e) {
                 Terminal.printError("Please enter a valid command");
             }
+        }
+    }
+    
+    private static void addAdmin(boolean loggedIn, String[] params) {
+        
+        try {
+            
+            if (loggedIn || params == null || params.length != 4) {
+                throw new IllegalArgumentException();
+            }
+            new Admin(params[0], params[1], params[2], params[3]);
+            
+        } catch (IllegalArgumentException e) {
+            Terminal.printError("Please enter a valid command");
         }
     }
     
