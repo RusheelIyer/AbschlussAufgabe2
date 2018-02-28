@@ -41,28 +41,16 @@ public class Main {
                     printSports(loggedIn, params);
                     break;
                 case "add-ioc-code":
-                    if (!loggedIn || params == null || params.length != 4) {
-                        throw new IllegalArgumentException();
-                    }
-                    new IOC(params[0], params[1], params[2], params[3]);
+                    newCountry(loggedIn, params);
                     break;
                 case "list-ioc-codes":
-                    if (!loggedIn || params != null) {
-                        throw new IllegalArgumentException();
-                    }
-                    IOC.listIOC();
+                    printCountries(loggedIn, params);
                     break;
                 case "add-athlete":
-                    if (!loggedIn || params == null || params.length != 6) {
-                        throw new IllegalArgumentException();
-                    }
-                    new Athlete(params[0], params[1], params[2], params[3], params[4], params[5]);
+                    newAthlete(loggedIn, params);
                     break;
                 case "summary-athletes":
-                    if (!loggedIn || params == null || params.length != 1) {
-                        throw new IllegalArgumentException();
-                    }
-                    Athlete.listAthletes(params[0]);
+                    printAthletes(loggedIn, params);
                     break;
                 case "add-competition":
                     if (!loggedIn || params == null || params.length != 8) {
@@ -177,7 +165,51 @@ public class Main {
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter a valid command");
         }
-    } 
+    }
+    
+    private static void newCountry(boolean loggedIn, String[] params) {
+        try {
+            if (!loggedIn || params == null || params.length != 4) {
+                throw new IllegalArgumentException();
+            }
+            new IOC(params[0], params[1], params[2], params[3]);
+        } catch (IllegalArgumentException e) {
+            Terminal.printError("Please enter a valid command");
+        }
+    }
+    
+    private static void printCountries(boolean loggedIn, String[] params) {
+        try {
+            if (!loggedIn || params != null) {
+                throw new IllegalArgumentException();
+            }
+            IOC.listIOC();
+        } catch (IllegalArgumentException e) {
+            Terminal.printError("Please enter a valid command");
+        }
+    }
+    
+    private static void newAthlete(boolean loggedIn, String[] params) {
+        try {
+            if (!loggedIn || params == null || params.length != 6) {
+                throw new IllegalArgumentException();
+            }
+            new Athlete(params[0], params[1], params[2], params[3], params[4], params[5]);
+        } catch (IllegalArgumentException e) {
+            Terminal.printError("Please enter a valid command");
+        }
+    }
+    
+    private static void printAthletes(boolean loggedIn, String[] params) {
+        try {
+            if (!loggedIn || params == null || params.length != 1) {
+                throw new IllegalArgumentException();
+            }
+            Athlete.listAthletes(params[0]);
+        } catch (IllegalArgumentException e) {
+            Terminal.printError("Please enter a valid command");
+        }
+    }
     
     private static void reset() {
         Athlete.getAthletes().clear();
