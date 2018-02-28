@@ -26,11 +26,11 @@ public class Main {
                     new Admin(params[0], params[1], params[2], params[3]);
                     break;
                 case "login-admin":
-                    if (loggedIn == true || params == null | params.length != 2 || Admin.getAdmins().isEmpty()) {
+                    if (loggedIn == true || params == null | params.length != 2) {
                         throw new IllegalArgumentException();
                     }
+                    Admin.loginAdmin(params[0], params[1]);
                     loggedIn = true;
-                    Terminal.printLine("OK");
                     break;
                 case "logout-admin":
                     if (params != null || !loggedIn) {
@@ -126,5 +126,6 @@ public class Main {
         Venue.getVenues().clear();
         IOC.getCountries().clear();
         Sport.getSports().clear();
+        Terminal.printLine("OK");
     }
 }

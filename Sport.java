@@ -60,6 +60,7 @@ public class Sport {
             this.discipline = discipline;
             
             sports.add(this);
+            Terminal.printLine("OK");
             
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter a valid sport type and discipline");

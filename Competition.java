@@ -78,6 +78,8 @@ public class Competition {
                     this.athlete.addBronze();
                 }
             }
+
+            Terminal.printLine("OK");
             
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter valid competition details");

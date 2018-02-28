@@ -98,7 +98,9 @@ public class Athlete extends Person {
                 throw new IllegalArgumentException();
             }
             
+            this.country.getAthletes().add(this);
             athletes.add(this);
+            Terminal.printLine("OK");
             
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter vlaid Athlete Details");
