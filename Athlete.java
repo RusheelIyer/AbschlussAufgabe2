@@ -103,7 +103,7 @@ public class Athlete extends Person {
             Terminal.printLine("OK");
             
         } catch (IllegalArgumentException e) {
-            Terminal.printError("Please enter vlaid Athlete Details");
+            Terminal.printError("Please enter valid Athlete Details");
         }
         
     }
