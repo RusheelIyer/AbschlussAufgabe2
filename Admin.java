@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Admin extends Person {
     
-    private static ArrayList<Admin> admins;
+    private static ArrayList<Admin> admins = new ArrayList<Admin>();
     private String username;
     private String password;
     
@@ -39,6 +39,7 @@ public class Admin extends Person {
             }
             
             admins.add(this);
+            Terminal.printLine("OK");
             
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter a valid username and password");
