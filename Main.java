@@ -10,9 +10,8 @@ public class Main {
     public static void main(String[] args) {
         boolean quitProgram = false;
         boolean loggedIn = false;
-        Admin admin = null;
-        try {
-            while (!quitProgram) {
+        while (!quitProgram) {
+            try {
                 String line = Terminal.readLine();
                 if (line.length() == 0 || line.endsWith(";")) {
                     throw new IllegalArgumentException();
@@ -30,20 +29,22 @@ public class Main {
                     if (loggedIn == true || params == null | params.length != 2 || Admin.getAdmins().isEmpty()) {
                         throw new IllegalArgumentException();
                     }
-                    admin = admin.loginAdmin(params[0], params[1]);
                     loggedIn = true;
+                    Terminal.printLine("OK");
                     break;
                 case "logout-admin":
                     if (params != null || !loggedIn) {
                         throw new IllegalArgumentException();
                     }
                     loggedIn = false;
+                    Terminal.printLine("OK");
                     break;
                 case "add-sports-venue":
                     if (!loggedIn || params == null || params.length != 6) {
                         throw new IllegalArgumentException();
                     }
                     new Venue(params[0], params[1], params[2], params[3], params[4], Integer.parseInt(params[5]));
+                    break;
                 case "list-sports-venues":
                     if (!loggedIn || params == null || params.length != 1) {
                         throw new IllegalArgumentException();
@@ -114,9 +115,9 @@ public class Main {
                 default:
                     throw new IllegalArgumentException();
                 }
+            } catch (IllegalArgumentException e) {
+                Terminal.printError("Please enter a valid command");
             }
-        } catch (IllegalArgumentException e) {
-            Terminal.printError("Please enter a valid command");
         }
     }
     
