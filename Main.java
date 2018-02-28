@@ -26,17 +26,10 @@ public class Main {
                     loggedIn = loginAdmin(loggedIn, params);
                     break;
                 case "logout-admin":
-                    if (params != null || !loggedIn) {
-                        throw new IllegalArgumentException();
-                    }
-                    loggedIn = false;
-                    Terminal.printLine("OK");
+                    loggedIn = logout(loggedIn, params);
                     break;
                 case "add-sports-venue":
-                    if (!loggedIn || params == null || params.length != 6) {
-                        throw new IllegalArgumentException();
-                    }
-                    new Venue(params[0], params[1], params[2], params[3], params[4], Integer.parseInt(params[5]));
+                    newSportsVenue(loggedIn, params);
                     break;
                 case "list-sports-venues":
                     if (!loggedIn || params == null || params.length != 1) {
@@ -135,6 +128,30 @@ public class Main {
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter a valid command");
             return false;
+        }
+    }
+    
+    private static boolean logout(boolean loggedIn, String[] params) {
+        try {
+            if (params != null || !loggedIn) {
+                throw new IllegalArgumentException();
+            }
+            Terminal.printLine("OK");
+            return false;
+        } catch (IllegalArgumentException e) {
+            Terminal.printError("Please enter a valid command and make sure no other admin is logged in");
+            return true;
+        }
+    }
+    
+    private static void newSportsVenue(boolean loggedIn, String[] params) {
+        try {
+            if (!loggedIn || params == null || params.length != 6) {
+                throw new IllegalArgumentException();
+            }
+            new Venue(params[0], params[1], params[2], params[3], params[4], Integer.parseInt(params[5]));
+        } catch (IllegalArgumentException e) {
+            Terminal.printError("Please enter a valid command");
         }
     }
     
