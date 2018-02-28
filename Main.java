@@ -32,22 +32,13 @@ public class Main {
                     newSportsVenue(loggedIn, params);
                     break;
                 case "list-sports-venues":
-                    if (!loggedIn || params == null || params.length != 1) {
-                        throw new IllegalArgumentException();
-                    }
-                    Venue.listVenues(params[0]);
+                    listSportsVenues(loggedIn, params);
                     break;
                 case "add-olympic-sport":
-                    if (!loggedIn || params == null || params.length != 2) {
-                        throw new IllegalArgumentException();
-                    }
-                    new Sport(params[0], params[1]);
+                    newSport(loggedIn, params);
                     break;
                 case "list-olympic-sports":
-                    if (!loggedIn || params != null) {
-                        throw new IllegalArgumentException();
-                    }
-                    Sport.listSports();
+                    printSports(loggedIn, params);
                     break;
                 case "add-ioc-code":
                     if (!loggedIn || params == null || params.length != 4) {
@@ -154,6 +145,39 @@ public class Main {
             Terminal.printError("Please enter a valid command");
         }
     }
+    
+    private static void listSportsVenues(boolean loggedIn, String[] params) {
+        try {
+            if (!loggedIn || params == null || params.length != 1) {
+                throw new IllegalArgumentException();
+            }
+            Venue.listVenues(params[0]);
+        } catch (IllegalArgumentException e) {
+            Terminal.printError("Please enter a valid command");
+        }
+    }
+    
+    private static void newSport(boolean loggedIn, String[] params) {
+        try {
+            if (!loggedIn || params == null || params.length != 2) {
+                throw new IllegalArgumentException();
+            }
+            new Sport(params[0], params[1]);
+        } catch (IllegalArgumentException e) {
+            Terminal.printError("Please enter a valid command");
+        }
+    }
+    
+    private static void printSports(boolean loggedIn, String[] params) {
+        try {
+            if (!loggedIn || params != null) {
+                throw new IllegalArgumentException();
+            }
+            Sport.listSports();
+        } catch (IllegalArgumentException e) {
+            Terminal.printError("Please enter a valid command");
+        }
+    } 
     
     private static void reset() {
         Athlete.getAthletes().clear();
