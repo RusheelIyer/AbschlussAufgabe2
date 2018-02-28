@@ -27,12 +27,12 @@ public class Admin extends Person {
                     if (admins.get(i).username.equals(username)) {
                         throw new IllegalArgumentException();
                     }
-                    this.username = username;
                 }
+                this.username = username;
             } else {
                 throw new IllegalArgumentException();
             }
-            if (password.length() >= 8 && username.length() <= 12) {
+            if (password.length() >= 8 && password.length() <= 12) {
                 this.password = password;   
             } else {
                 throw new IllegalArgumentException();
@@ -46,7 +46,7 @@ public class Admin extends Person {
         }
         
     }
-
+    
     /**
      * get the list of creaed admins
      * 
@@ -61,17 +61,26 @@ public class Admin extends Person {
      * 
      * @param username represents the username of the admin attempting to login
      * @param password represents the password of the admin attempting to login
-     * @return the admin with the corresponding username and password
      */
-    public Admin loginAdmin(String username, String password) {
-        Admin admin = null;
-        for (int i = 0; i < admins.size(); i++) {
-            if (admins.get(i).username.equals(username) && admins.get(i).equals(password)) {
-                admin = admins.get(i);
-                break;
+    public static void loginAdmin(String username, String password) {
+        
+        try {
+            
+            boolean adminExists = false;
+            for (int i = 0; i < admins.size(); i++) {
+                if (admins.get(i).username.equals(username) && admins.get(i).password.equals(password)) {
+                    adminExists = true;
+                    break;
+                }
             }
+            if (adminExists) {
+                Terminal.printLine("OK");   
+            } else {
+                throw new IllegalArgumentException();
+            }
+        } catch (IllegalArgumentException e) {
+            Terminal.printError("Please enter a valid username and password");
         }
-        return admin;
     }
     
     /**
