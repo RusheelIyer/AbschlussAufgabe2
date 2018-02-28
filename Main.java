@@ -23,11 +23,7 @@ public class Main {
                     addAdmin(loggedIn, params);
                     break;
                 case "login-admin":
-                    if (loggedIn == true || params == null | params.length != 2) {
-                        throw new IllegalArgumentException();
-                    }
-                    Admin.loginAdmin(params[0], params[1]);
-                    loggedIn = true;
+                    loggedIn = loginAdmin(loggedIn, params);
                     break;
                 case "logout-admin":
                     if (params != null || !loggedIn) {
@@ -119,16 +115,26 @@ public class Main {
     }
     
     private static void addAdmin(boolean loggedIn, String[] params) {
-        
         try {
-            
             if (loggedIn || params == null || params.length != 4) {
                 throw new IllegalArgumentException();
             }
             new Admin(params[0], params[1], params[2], params[3]);
-            
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter a valid command");
+        }
+    }
+    
+    private static boolean loginAdmin(boolean loggedIn, String[] params) {
+        try {
+            if (loggedIn == true || params == null | params.length != 2) {
+                throw new IllegalArgumentException();
+            }
+            Admin.loginAdmin(params[0], params[1]);
+            return true;
+        } catch (IllegalArgumentException e) {
+            Terminal.printError("Please enter a valid command");
+            return false;
         }
     }
     
