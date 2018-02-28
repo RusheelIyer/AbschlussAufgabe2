@@ -34,7 +34,7 @@ public class Athlete extends Person {
     
     private short id;
     private IOC country;
-    private Sport sport;
+    private ArrayList<Sport> sports = new ArrayList<Sport>();
     private int golds;
     private int silvers;
     private int bronzes;
@@ -52,60 +52,74 @@ public class Athlete extends Person {
     public Athlete(String id, String firstName, String lastName, String country, String sportType, String discipline) {
         super(firstName, lastName);
         try {
-            
+            boolean athleteExists = false;
+            Athlete existingAthlete = athletes.get(0);
             if (id.matches("[0-9]{4}") && Short.parseShort(id) >= 1) {
                 for (int i = 0; i < athletes.size(); i++) {
                     if (athletes.get(i).id == Short.parseShort(id)) {
-                        throw new IllegalArgumentException();
+                        if (!athletes.get(i).getFirstName().equals(firstName)
+                                || !athletes.get(i).getLastName().equals(lastName) ) {
+                            throw new IllegalArgumentException();
+                        }
+                        athleteExists = true;
+                        existingAthlete = athletes.get(i);
                     }
                 }
                 this.id = Short.parseShort(id);
             } else {
                 throw new IllegalArgumentException();
             }
-            
-            
-            if (IOC.getCountries().isEmpty()) {
-                throw new IllegalArgumentException();
-            }
-            boolean countryExists = false;
-            for (int i = 0; i < IOC.getCountries().size(); i++) {
-                if (IOC.getCountries().get(i).getCountryName().equals(country)) {
-                    countryExists = true;
-                    this.country = IOC.getCountries().get(i);
-                    IOC.getCountries().get(i).getAthletes().add(this);
-                    break;
+            if (athleteExists) {   
+                boolean sportExists = false;
+                for (int i = 0; i < Sport.getSports().size(); i++) {
+                    if (Sport.getSports().get(i).getType().equals(sportType)
+                            && Sport.getSports().get(i).getDiscipline().equals(discipline)) {
+                        sportExists = true;
+                        existingAthlete.sports.add(Sport.getSports().get(i));
+                    }
                 }
-            }
-            
-            if (!countryExists) {
-                throw new IllegalArgumentException();
-            }
-            
-            if (Sport.getSports().isEmpty()) {
-                throw new IllegalArgumentException();
-            }
-            boolean sportExists = false;
-            for (int i = 0; i < Sport.getSports().size(); i++) {
-                if (Sport.getSports().get(i).getType().equals(sportType)
-                        && Sport.getSports().get(i).getDiscipline().equals(discipline)) {
-                    sportExists = true;
-                    this.sport = Sport.getSports().get(i);
+                if (!sportExists) {
+                    throw new IllegalArgumentException();
                 }
+                for (int i = 0; i < existingAthlete.sports.size() - 1; i++) {
+                    Sport currentSport = existingAthlete.sports.get(i);
+                    if (currentSport.getType().equals(existingAthlete.sports.get(i + 1).getType())
+                            && currentSport.getDiscipline().equals(existingAthlete.sports.get(i + 1).getDiscipline())) {
+                        existingAthlete.sports.remove(i + 1);
+                        throw new IllegalArgumentException();
+                    }
+                }
+            } else {
+                boolean countryExists = false;
+                for (int i = 0; i < IOC.getCountries().size(); i++) {
+                    if (IOC.getCountries().get(i).getCountryName().equals(country)) {
+                        countryExists = true;
+                        this.country = IOC.getCountries().get(i);
+                        IOC.getCountries().get(i).getAthletes().add(this);
+                        break;
+                    }
+                }
+                if (!countryExists) {
+                    throw new IllegalArgumentException();
+                }
+                boolean sportExists = false;
+                for (int i = 0; i < Sport.getSports().size(); i++) {
+                    if (Sport.getSports().get(i).getType().equals(sportType)
+                            && Sport.getSports().get(i).getDiscipline().equals(discipline)) {
+                        sportExists = true;
+                        this.sports.add(Sport.getSports().get(i));
+                    }
+                }
+                if (!sportExists) {
+                    throw new IllegalArgumentException();
+                }
+                this.country.getAthletes().add(this);
+                athletes.add(this);
             }
-            
-            if (!sportExists) {
-                throw new IllegalArgumentException();
-            }
-            
-            this.country.getAthletes().add(this);
-            athletes.add(this);
             Terminal.printLine("OK");
-            
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter valid Athlete Details");
         }
-        
     }
     
     /**
@@ -139,8 +153,10 @@ public class Athlete extends Person {
             
             ArrayList<Athlete> disciplineAthletes = new ArrayList<Athlete>();
             for (int i = 0; i < athletes.size(); i++) {
-                if (athletes.get(i).getSport().getDiscipline().equals(discipline)) {
-                    disciplineAthletes.add(athletes.get(i));
+                for (int j = 0; j < athletes.get(i).sports.size(); j++) {
+                    if (athletes.get(i).sports.get(j).getDiscipline().equals(discipline)) {
+                        disciplineAthletes.add(athletes.get(i));
+                    }
                 }
             }
             
@@ -180,8 +196,8 @@ public class Athlete extends Person {
      * 
      * @return the athlete's sport information
      */
-    public Sport getSport() {
-        return this.sport;
+    public ArrayList<Sport> getSports() {
+        return this.sports;
     }
     
     /**

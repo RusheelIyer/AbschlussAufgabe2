@@ -28,24 +28,28 @@ public class Competition {
             String discipline, byte gold, byte silver, byte bronze) {
         
         try {
-            
+            Sport sport = null;
+            for (int i = 0; i < Sport.getSports().size(); i++) {
+                if (Sport.getSports().get(i).getType().equals(sportType)
+                        && Sport.getSports().get(i).getDiscipline().equals(discipline)) {
+                    sport = Sport.getSports().get(i);
+                }
+            }
             boolean athleteExists = false;
             for (int i = 0; i < Athlete.getAthletes().size(); i++) {
-                if (Athlete.getAthletes().get(i).getID() == Short.parseShort(athleteID)) {
-                    if (Athlete.getAthletes().get(i).getCountry().getCountryName().equals(countryName)) {
-                        if (Athlete.getAthletes().get(i).getSport().getType().equals(sportType)
-                                && Athlete.getAthletes().get(i).getSport().getDiscipline().equals(discipline)) {
+                Athlete currentAthlete = Athlete.getAthletes().get(i);
+                if (currentAthlete.getID() == Short.parseShort(athleteID)) {
+                    if (currentAthlete.getCountry().getCountryName().equals(countryName)) {
+                        if (sport != null && currentAthlete.getSports().contains(sport)) {
                             athleteExists = true;
-                            this.athlete = Athlete.getAthletes().get(i);
+                            this.athlete = currentAthlete;
                         }
                     }
                 }
             }
-            
             if (!athleteExists) {
                 throw new IllegalArgumentException();
             }
-            
             boolean validYear = false;
             for (int i = 0; i <= 23; i++) {
                 if (year == (1926 + (4 * i))) {
@@ -78,7 +82,7 @@ public class Competition {
                     this.athlete.addBronze();
                 }
             }
-
+            
             Terminal.printLine("OK");
             
         } catch (IllegalArgumentException e) {
