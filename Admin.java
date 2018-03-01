@@ -61,11 +61,11 @@ public class Admin extends Person {
      * 
      * @param username represents the username of the admin attempting to login
      * @param password represents the password of the admin attempting to login
+     * 
+     * @throws IllegalArgumentException when the username and/or password don't match.  
      */
-    public static void loginAdmin(String username, String password) {
+    public static void loginAdmin(String username, String password) throws IllegalArgumentException {
         
-        try {
-            
             boolean adminExists = false;
             for (int i = 0; i < admins.size(); i++) {
                 if (admins.get(i).username.equals(username) && admins.get(i).password.equals(password)) {
@@ -78,9 +78,7 @@ public class Admin extends Person {
             } else {
                 throw new IllegalArgumentException();
             }
-        } catch (IllegalArgumentException e) {
-            Terminal.printError("Please enter a valid username and password");
-        }
+        
     }
     
     /**
