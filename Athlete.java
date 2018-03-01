@@ -242,7 +242,7 @@ public class Athlete extends Person {
      * 
      */
     public void addSilver() {
-        this.silvers = this.golds + 1;
+        this.silvers = this.silvers + 1;
     }
 
     /**
