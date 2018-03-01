@@ -95,7 +95,6 @@ public class Athlete extends Person {
                     if (IOC.getCountries().get(i).getCountryName().equals(country)) {
                         countryExists = true;
                         this.country = IOC.getCountries().get(i);
-                        IOC.getCountries().get(i).getAthletes().add(this);
                         break;
                     }
                 }
