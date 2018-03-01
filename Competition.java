@@ -36,6 +36,9 @@ public class Competition {
                 }
             }
             boolean athleteExists = false;
+            if (!athleteID.matches("[0-9]{4}")) {
+                throw new IllegalArgumentException();
+            }
             for (int i = 0; i < Athlete.getAthletes().size(); i++) {
                 Athlete currentAthlete = Athlete.getAthletes().get(i);
                 if (currentAthlete.getID() == Short.parseShort(athleteID)) {
