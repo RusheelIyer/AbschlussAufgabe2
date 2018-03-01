@@ -1,255 +1,102 @@
 package edu.kit.informatik;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
-public class Athlete extends Person {
+public class Admin extends Person {
     
-    private static ArrayList<Athlete> athletes = new ArrayList<Athlete>();
-    /**
-     * Create comparator to sort the athletes in the array list descending according to
-     * the number of medals s/he has won, or ascending according to the ID if the number of medals won are the same
-     */
-    private static Comparator<Athlete> comparator = new Comparator<Athlete>() {
-        
-        @Override
-        public int compare(Athlete athleteOne, Athlete athleteTwo) {
-            int athleteOneMedals = athleteOne.bronzes + athleteOne.silvers + athleteOne.golds;
-            int athleteTwoMedals = athleteTwo.bronzes + athleteTwo.silvers + athleteTwo.golds;
-            if (athleteOneMedals < athleteTwoMedals) {
-                return 1;
-            } else if (athleteOneMedals == athleteTwoMedals) {
-                if (athleteOne.id < athleteTwo.id) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            } else {
-                return -1;
-            }
-            
-        }
-        
-    };
-    
-    private short id;
-    private IOC country;
-    private ArrayList<Sport> sports = new ArrayList<Sport>();
-    private int golds;
-    private int silvers;
-    private int bronzes;
+    private static ArrayList<Admin> admins = new ArrayList<Admin>();
+    private String username;
+    private String password;
     
     /**
-     * Constructor for an athlete
+     * Constructor for an admin
      * 
-     * @param id represents the athlete's ID
-     * @param firstName represents the athlete's first name
-     * @param lastName represents the athlete's last name
-     * @param country represents the athlete's nationality
-     * @param sportType represents the sport type the athlete performs
-     * @param discipline represents the sport discipline that the athlete performs
+     * @param firstName represents the first name of the admin to be added
+     * @param lastName represents the last name of the admin to be added
+     * @param username represents the username of the admin to be added
+     * @param password represents the password of the admin to be added
      */
-    public Athlete(String id, String firstName, String lastName, String country, String sportType, String discipline) {
+    public Admin(String firstName, String lastName, String username, String password) {
+        
         super(firstName, lastName);
+        
         try {
-            boolean athleteExists = false;
-            Athlete existingAthlete = null;
-            if (id.matches("[0-9]{4}") && Short.parseShort(id) >= 1) {
-                for (int i = 0; i < athletes.size(); i++) {
-                    if (athletes.get(i).id == Short.parseShort(id)) {
-                        if (!athletes.get(i).getFirstName().equals(firstName)
-                                || !athletes.get(i).getLastName().equals(lastName) ) {
-                            throw new IllegalArgumentException();
-                        }
-                        athleteExists = true;
-                        existingAthlete = athletes.get(i);
-                    }
-                }
-                this.id = Short.parseShort(id);
-            } else {
-                throw new IllegalArgumentException();
-            }
-            if (athleteExists) {   
-                boolean sportExists = false;
-                for (int i = 0; i < Sport.getSports().size(); i++) {
-                    if (Sport.getSports().get(i).getType().equals(sportType)
-                            && Sport.getSports().get(i).getDiscipline().equals(discipline)) {
-                        sportExists = true;
-                        existingAthlete.sports.add(Sport.getSports().get(i));
-                    }
-                }
-                if (!sportExists) {
-                    throw new IllegalArgumentException();
-                }
-                for (int i = 0; i < existingAthlete.sports.size() - 1; i++) {
-                    Sport currentSport = existingAthlete.sports.get(i);
-                    if (currentSport.getType().equals(existingAthlete.sports.get(i + 1).getType())
-                            && currentSport.getDiscipline().equals(existingAthlete.sports.get(i + 1).getDiscipline())) {
-                        existingAthlete.sports.remove(i + 1);
+            
+            if (username.length() >= 4 && username.length() <= 8) {
+                for (int i = 0; i < admins.size(); i++) {
+                    if (admins.get(i).username.equals(username)) {
                         throw new IllegalArgumentException();
                     }
                 }
+                this.username = username;
             } else {
-                boolean countryExists = false;
-                for (int i = 0; i < IOC.getCountries().size(); i++) {
-                    if (IOC.getCountries().get(i).getCountryName().equals(country)) {
-                        countryExists = true;
-                        this.country = IOC.getCountries().get(i);
-                        break;
-                    }
-                }
-                if (!countryExists) {
-                    throw new IllegalArgumentException();
-                }
-                boolean sportExists = false;
-                for (int i = 0; i < Sport.getSports().size(); i++) {
-                    if (Sport.getSports().get(i).getType().equals(sportType)
-                            && Sport.getSports().get(i).getDiscipline().equals(discipline)) {
-                        sportExists = true;
-                        this.sports.add(Sport.getSports().get(i));
-                    }
-                }
-                if (!sportExists) {
-                    throw new IllegalArgumentException();
-                }
-                this.country.getAthletes().add(this);
-                athletes.add(this);
+                throw new IllegalArgumentException();
             }
-            Terminal.printLine("OK");
-        } catch (IllegalArgumentException e) {
-            Terminal.printError("Please enter valid Athlete Details");
-        }
-    }
-    
-    /**
-     * gets the list of athletes added so far
-     * 
-     * @return list of athletes
-     */
-    public static ArrayList<Athlete> getAthletes() {
-        return athletes;
-    }
-    
-    /**
-     * Method to list athletes who perform the specified sport discipline
-     * 
-     * @param discipline represents the discipline, whose performing athletes are wished to be listed 
-     */
-    public static void listAthletes(String discipline) {
-        
-        try {
-            
-            boolean disciplineExists = false;
-            for (int i = 0; i < Sport.getSports().size(); i++) {
-                if (Sport.getSports().get(i).getDiscipline().equals(discipline)) {
-                    disciplineExists = true;
-                }
-            }
-            
-            if (!disciplineExists) {
+            if (password.length() >= 8 && password.length() <= 12) {
+                this.password = password;   
+            } else {
                 throw new IllegalArgumentException();
             }
             
-            ArrayList<Athlete> disciplineAthletes = new ArrayList<Athlete>();
-            for (int i = 0; i < athletes.size(); i++) {
-                for (int j = 0; j < athletes.get(i).sports.size(); j++) {
-                    if (athletes.get(i).sports.get(j).getDiscipline().equals(discipline)) {
-                        disciplineAthletes.add(athletes.get(i));
-                    }
+            admins.add(this);
+            Terminal.printLine("OK");
+            
+        } catch (IllegalArgumentException e) {
+            Terminal.printError("Please enter a valid username and password");
+        }
+        
+    }
+    
+    /**
+     * get the list of creaed admins
+     * 
+     * @return the list of admins
+     */
+    public static ArrayList<Admin> getAdmins() {
+        return admins;
+    }
+    
+    /**
+     * Method to login the admin
+     * 
+     * @param username represents the username of the admin attempting to login
+     * @param password represents the password of the admin attempting to login
+     * 
+     * @throws IllegalArgumentException when the username and/or password don't match.  
+     */
+    public static void loginAdmin(String username, String password) throws IllegalArgumentException {
+        
+            boolean adminExists = false;
+            for (int i = 0; i < admins.size(); i++) {
+                if (admins.get(i).username.equals(username) && admins.get(i).password.equals(password)) {
+                    adminExists = true;
+                    break;
                 }
             }
-            
-            disciplineAthletes.sort(comparator);
-            for (int i = 0; i < disciplineAthletes.size(); i++) {
-                int medals = disciplineAthletes.get(i).bronzes + disciplineAthletes.get(i).silvers 
-                        + disciplineAthletes.get(i).golds;
-                Terminal.printLine(String.format("%04d", disciplineAthletes.get(i).id) + " "
-                        + disciplineAthletes.get(i).getFirstName() + " "
-                        + disciplineAthletes.get(i).getLastName() + " " + medals);
+            if (adminExists) {
+                Terminal.printLine("OK");   
+            } else {
+                throw new IllegalArgumentException();
             }
-        } catch (IllegalArgumentException e) {
-            Terminal.printError("Please enter a valid discipline");
-        }
+        
     }
     
     /**
-     * Getter for the athlete's ID
+     * Getter method for the admin's username
      * 
-     * @return the athlete's ID
+     * @return the admin's username
      */
-    public short getID() {
-        return this.id;
+    public String getUsername() {
+        return this.username;
     }
     
     /**
-     * Getter for the athlete's country information
+     * Getter method for the admin's password
      * 
-     * @return the athlete's country
+     * @return the admin's password
      */
-    public IOC getCountry() {
-        return this.country;
-    }
-    
-    /**
-     * Getter for the athlete's sport
-     * 
-     * @return the athlete's sport information
-     */
-    public ArrayList<Sport> getSports() {
-        return this.sports;
-    }
-    
-    /**
-     * Getter for the number of gold medals the athlete has won
-     * 
-     * @return the number of gold medals won by the athlete
-     */
-    public int getGolds() {
-        return this.golds;
-    }
-    
-    /**
-     * Getter for the number of silver medals the athlete has won
-     * 
-     * @return the number of silver medals won by the athlete
-     */
-    public int getSilvers() {
-        return this.silvers;
-    }
-    
-    /**
-     * Getter for the number of bronze medals the athlete has won
-     * 
-     * @return the number of bronze medals won by the athlete
-     */
-    public int getBronzes() {
-        return this.bronzes;
-    }
-    
-    /**
-     * increase the number of gold medals won by the athlete by 1, 
-     * if s/he has taken part in and won a new competition
-     * 
-     */
-    public void addGold() {
-        this.golds = this.golds + 1;
-    }
-    
-    /**
-     * increase the number of silver medals won by the athlete by 1, 
-     * if s/he has taken part in and won a new competition
-     * 
-     */
-    public void addSilver() {
-        this.silvers = this.silvers + 1;
+    public String getPassword() {
+        return this.password;
     }
 
-    /**
-     * increase the number of bronze medals won by the athlete by 1, 
-     * if s/he has taken part in and won a new competition
-     * 
-     */
-    public void addBronze() {
-        this.bronzes = this.bronzes + 1;
-    }
 }

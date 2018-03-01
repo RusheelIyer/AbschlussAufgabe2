@@ -98,7 +98,7 @@ public class Main {
             Admin.loginAdmin(params[0], params[1]);
             return true;
         } catch (IllegalArgumentException e) {
-            Terminal.printError("Please enter a valid command");
+            Terminal.printError("Please enter a valid command and make sure username and password details correct");
             return false;
         }
     }
