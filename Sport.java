@@ -103,4 +103,24 @@ public class Sport {
     public String getDiscipline() {
         return this.discipline;
     }
+    
+    /**
+     * Helping method to check if two sport objects are the same
+     * 
+     * @param object the object to be compared to
+     * @return true if they are the same type and discipline, false if not
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object != null && this.getClass() == object.getClass()) {
+            Sport sport = (Sport) object;
+            if (this.sportType.equals(sport.sportType) && this.discipline.equals(sport.discipline)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
