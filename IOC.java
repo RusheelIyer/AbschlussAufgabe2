@@ -162,7 +162,7 @@ public class IOC {
             Terminal.printLine("(" + i + 1 + " " + String.format("%03d", countries.get(i).id)
                     + " " + countries.get(i).code + " " + countries.get(i).countryName + " " 
                     + countries.get(i).goldMedals() + " " + countries.get(i).silverMedals() + " "
-                    + countries.get(i).bronzeMedals() + " " + countries.get(i).calculateMedals());
+                    + countries.get(i).bronzeMedals() + " " + countries.get(i).calculateMedals() + ")");
         }
         
     }
@@ -223,7 +223,7 @@ public class IOC {
         for (int i = 0; i < this.athletes.size(); i++) {
             medalCount = medalCount + this.athletes.get(i).getGolds();
         }
-        
+
         return medalCount;
     }
     
