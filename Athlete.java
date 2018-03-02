@@ -73,21 +73,18 @@ public class Athlete extends Person {
                 boolean sportExists = false;
                 for (int i = 0; i < Sport.getSports().size(); i++) {
                     Sport current = Sport.getSports().get(i);
-                    if (current.getType().equals(sportType) && current.getDiscipline().equals(discipline)) {
+                    Sport newSport = new Sport(sportType, discipline);
+                    if (current.equals(newSport)) {
                         sportExists = true;
-                        existingAthlete.sports.add(current);
+                        if (existingAthlete.sports.contains(current)) {
+                            throw new IllegalArgumentException();
+                        } else {
+                            existingAthlete.sports.add(current);   
+                        }
                     }
                 }
                 if (!sportExists) {
                     throw new IllegalArgumentException();
-                }
-                for (int i = 0; i < existingAthlete.sports.size() - 1; i++) {
-                    Sport currentSport = existingAthlete.sports.get(i);
-                    if (currentSport.getType().equals(existingAthlete.sports.get(i + 1).getType())
-                            && currentSport.getDiscipline().equals(existingAthlete.sports.get(i + 1).getDiscipline())) {
-                        existingAthlete.sports.remove(i + 1);
-                        throw new IllegalArgumentException();
-                    }
                 }
             } else {
                 this.id = Short.parseShort(id);
