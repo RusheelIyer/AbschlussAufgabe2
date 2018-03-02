@@ -56,26 +56,26 @@ public class Athlete extends Person {
             Athlete existingAthlete = null;
             if (id.matches("[0-9]{4}") && Short.parseShort(id) >= 1) {
                 for (int i = 0; i < athletes.size(); i++) {
-                    if (athletes.get(i).id == Short.parseShort(id)) {
-                        if (!athletes.get(i).getFirstName().equals(firstName)
-                                || !athletes.get(i).getLastName().equals(lastName) ) {
+                    Athlete current = athletes.get(i);
+                    if (current.id == Short.parseShort(id)) {
+                        if (!current.getFirstName().equals(firstName) || !current.getLastName().equals(lastName)
+                                || !current.country.getCountryName().equals(country)) {
                             throw new IllegalArgumentException();
                         }
                         athleteExists = true;
-                        existingAthlete = athletes.get(i);
+                        existingAthlete = current;
                     }
                 }
-                this.id = Short.parseShort(id);
             } else {
                 throw new IllegalArgumentException();
             }
             if (athleteExists) {   
                 boolean sportExists = false;
                 for (int i = 0; i < Sport.getSports().size(); i++) {
-                    if (Sport.getSports().get(i).getType().equals(sportType)
-                            && Sport.getSports().get(i).getDiscipline().equals(discipline)) {
+                    Sport current = Sport.getSports().get(i);
+                    if (current.getType().equals(sportType) && current.getDiscipline().equals(discipline)) {
                         sportExists = true;
-                        existingAthlete.sports.add(Sport.getSports().get(i));
+                        existingAthlete.sports.add(current);
                     }
                 }
                 if (!sportExists) {
@@ -90,6 +90,7 @@ public class Athlete extends Person {
                     }
                 }
             } else {
+                this.id = Short.parseShort(id);
                 boolean countryExists = false;
                 for (int i = 0; i < IOC.getCountries().size(); i++) {
                     if (IOC.getCountries().get(i).getCountryName().equals(country)) {
