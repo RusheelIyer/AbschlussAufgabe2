@@ -126,7 +126,7 @@ public class IOC {
             Terminal.printLine("OK");
             
         } catch (IllegalArgumentException e) {
-            Terminal.printError("Please enter valid IOC information");
+            Terminal.printError("Please enter valid IOC details");
         }
     }
     
