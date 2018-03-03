@@ -43,6 +43,10 @@ public class Sport {
         
         try {
             
+            if (sportType.length() == 0 || discipline.length() == 0) {
+                throw new IllegalArgumentException();
+            }
+            
             boolean sportExists = false;
             for (int i = 0; i < sports.size(); i++) {
                 if (sports.get(i).sportType.equals(sportType) && sports.get(i).discipline.equals(discipline)

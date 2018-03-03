@@ -84,6 +84,9 @@ public class Main {
             if (loggedIn || params == null || params.length != 4) {
                 throw new IllegalArgumentException();
             }
+            if (params[0].length() == 0 || params[1].length() == 0) {
+                throw new IllegalArgumentException();
+            }
             new Admin(params[0], params[1], params[2], params[3]);
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter a valid command");
@@ -165,6 +168,9 @@ public class Main {
             if (!loggedIn || params == null || params.length != 4) {
                 throw new IllegalArgumentException();
             }
+            if (params[2].length() == 0) {
+                throw new IllegalArgumentException();
+            }
             new IOC(params[0], params[1], params[2], params[3]);
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter a valid command");
@@ -185,6 +191,9 @@ public class Main {
     private static void newAthlete(boolean loggedIn, String[] params) {
         try {
             if (!loggedIn || params == null || params.length != 6) {
+                throw new IllegalArgumentException();
+            }
+            if (params[1].length() == 0 || params[2].length() == 0) {
                 throw new IllegalArgumentException();
             }
             new Athlete(params[0], params[1], params[2], params[3], params[4], params[5]);
