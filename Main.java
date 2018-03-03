@@ -124,6 +124,9 @@ public class Main {
             if (!loggedIn || params == null || params.length != 6) {
                 throw new IllegalArgumentException();
             }
+            if (params[1].length() == 0 || params[2].length() == 0) {
+                throw new IllegalArgumentException();
+            }
             new Venue(params[0], params[1], params[2], params[3], params[4], Integer.parseInt(params[5]));
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter a valid command");
