@@ -138,7 +138,7 @@ public class Venue {
             
             countryVenues.sort(comparator);
             for (int i = 0; i < countryVenues.size(); i++) {
-                Terminal.printLine("(" + i + 1 + " " + String.format("%03d", countryVenues.get(i).id)
+                Terminal.printLine("(" + (i + 1) + " " + String.format("%03d", countryVenues.get(i).id)
                 + " " + countryVenues.get(i).location + " " + countryVenues.get(i).capacity + ")");
             }
         } catch (IllegalArgumentException e) {
