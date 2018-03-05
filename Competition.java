@@ -1,10 +1,13 @@
 package edu.kit.informatik;
 
+import java.util.ArrayList;
+
 public class Competition {
     
+    private static ArrayList<Competition> competitions = new ArrayList<Competition>();
     private Athlete athlete;
-    @SuppressWarnings("unused")
     private short year;
+    private Sport sport;
     private boolean gold;
     private boolean silver;
     private boolean bronze;
@@ -23,14 +26,15 @@ public class Competition {
      */
     public Competition(String athleteID, short year, String countryName, String sportType, 
             String discipline, byte gold, byte silver, byte bronze) {
-        
         try {
-            Sport sport = null;
             for (int i = 0; i < Sport.getSports().size(); i++) {
                 if (Sport.getSports().get(i).getType().equals(sportType)
                         && Sport.getSports().get(i).getDiscipline().equals(discipline)) {
-                    sport = Sport.getSports().get(i);
+                    this.sport = Sport.getSports().get(i);
                 }
+            }
+            if (this.sport == null) {
+                throw new NullPointerException();
             }
             boolean athleteExists = false;
             if (!athleteID.matches("[0-9]{4}")) {
@@ -40,7 +44,7 @@ public class Competition {
                 Athlete currentAthlete = Athlete.getAthletes().get(i);
                 if (currentAthlete.getID() == Short.parseShort(athleteID)) {
                     if (currentAthlete.getCountry().getCountryName().equals(countryName)) {
-                        if (sport != null && currentAthlete.getSports().contains(sport)) {
+                        if (currentAthlete.getSports().contains(this.sport)) {
                             athleteExists = true;
                             this.athlete = currentAthlete;
                         }
@@ -58,9 +62,19 @@ public class Competition {
                     break;
                 }
             }
-            
             if (!validYear) {
                 throw new IllegalArgumentException();
+            }
+            for (int i = 0; i < competitions.size(); i++) {
+                Competition currentComp = competitions.get(i);
+                if (currentComp.athlete.equals(this.athlete) && this.year == currentComp.year 
+                        && currentComp.sport.getType().equals(sportType)
+                        && currentComp.sport.getDiscipline().equals(discipline)) {
+                    for (int j = 0; j < competitions.size(); j++) {
+                        Terminal.printLine(competitions.get(j).athlete.getFirstName());
+                    }
+                    throw new IllegalArgumentException();
+                }
             }
             
             if ((gold != 1 && gold != 0) && (silver != 1 || silver != 0) && (bronze != 0 && bronze != 1)) {
@@ -82,12 +96,22 @@ public class Competition {
                     this.athlete.addBronze();
                 }
             }
-            
+            competitions.add(this);
             Terminal.printLine("OK");
-            
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter valid competition details");
+        } catch (NullPointerException n) {
+            Terminal.printError("Please enter a valid sport");
         }
+    }
+    
+    /**
+     * Get the list competitions done/added so far
+     * 
+     * @return the list of competitions
+     */
+    public static ArrayList<Competition> getCompetitions() {
+        return competitions;
     }
 
 }

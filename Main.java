@@ -244,6 +244,7 @@ public class Main {
         Venue.getVenues().clear();
         IOC.getCountries().clear();
         Sport.getSports().clear();
+        Competition.getCompetitions().clear();
         Terminal.printLine("OK");
     }
 }
