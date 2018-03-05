@@ -33,21 +33,19 @@ public class Competition {
                     this.sport = Sport.getSports().get(i);
                 }
             }
-            if (this.sport == null) {
-                throw new NullPointerException();
-            }
             boolean athleteExists = false;
             if (!athleteID.matches("[0-9]{4}")) {
                 throw new IllegalArgumentException();
             }
             for (int i = 0; i < Athlete.getAthletes().size(); i++) {
                 Athlete currentAthlete = Athlete.getAthletes().get(i);
-                if (currentAthlete.getID() == Short.parseShort(athleteID)) {
-                    if (currentAthlete.getCountry().getCountryName().equals(countryName)) {
-                        if (currentAthlete.getSports().contains(this.sport)) {
-                            athleteExists = true;
-                            this.athlete = currentAthlete;
-                        }
+                if ((currentAthlete.getID() == Short.parseShort(athleteID))
+                        && currentAthlete.getCountry().getCountryName().equals(countryName)) {
+                    if (this.sport != null && currentAthlete.getSports().contains(this.sport)) {
+                        athleteExists = true;
+                        this.athlete = currentAthlete;
+                    } else {
+                        throw new NullPointerException();
                     }
                 }
             }
@@ -61,6 +59,9 @@ public class Competition {
                     this.year = year;
                     break;
                 }
+            }
+            if (year < this.athlete.getCountry().getYear()) {
+                validYear = false;
             }
             if (!validYear) {
                 throw new IllegalArgumentException();
