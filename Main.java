@@ -65,7 +65,7 @@ public class Main {
                     reset();
                     break;
                 case "quit":
-                    if (!loggedIn || params != null) {
+                    if (params != null) {
                         throw new IllegalArgumentException();
                     }
                     quitProgram = true;
