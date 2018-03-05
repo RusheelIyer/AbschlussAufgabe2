@@ -73,8 +73,7 @@ public class Athlete extends Person {
                 boolean sportExists = false;
                 for (int i = 0; i < Sport.getSports().size(); i++) {
                     Sport current = Sport.getSports().get(i);
-                    Sport tempSport = new Sport(sportType, discipline);
-                    if (current.equals(tempSport)) {
+                    if (current.getType().equals(sportType) && current.getDiscipline().equals(discipline)) {
                         sportExists = true;
                         if (existingAthlete.sports.contains(current)) {
                             throw new IllegalArgumentException();
@@ -102,8 +101,7 @@ public class Athlete extends Person {
                 boolean sportExists = false;
                 for (int i = 0; i < Sport.getSports().size(); i++) {
                     Sport current = Sport.getSports().get(i);
-                    Sport tempSport = new Sport(sportType, discipline);
-                    if (current.equals(tempSport)) {
+                    if (current.getType().equals(sportType) && current.getDiscipline().equals(discipline)) {
                         sportExists = true;
                         this.sports.add(current);
                     }
