@@ -130,42 +130,46 @@ public class Athlete extends Person {
     /**
      * Method to list athletes who perform the specified sport discipline
      * 
+     * @param sportType represents the type of sport, whose performing athletes are wished to be listed
      * @param discipline represents the discipline, whose performing athletes are wished to be listed 
      */
-    public static void listAthletes(String discipline) {
+    public static void listAthletes(String sportType, String discipline) {
         
         try {
             
-            boolean disciplineExists = false;
+            boolean sportExists = false;
             for (int i = 0; i < Sport.getSports().size(); i++) {
-                if (Sport.getSports().get(i).getDiscipline().equals(discipline)) {
-                    disciplineExists = true;
+                Sport current = Sport.getSports().get(i);
+                if (current.getType().equals(sportType) && current.getDiscipline().equals(discipline)) {
+                    sportExists = true;
                 }
             }
             
-            if (!disciplineExists) {
+            if (!sportExists) {
                 throw new IllegalArgumentException();
             }
             
-            ArrayList<Athlete> disciplineAthletes = new ArrayList<Athlete>();
+            ArrayList<Athlete> sportAthletes = new ArrayList<Athlete>();
             for (int i = 0; i < athletes.size(); i++) {
                 for (int j = 0; j < athletes.get(i).sports.size(); j++) {
-                    if (athletes.get(i).sports.get(j).getDiscipline().equals(discipline)) {
-                        disciplineAthletes.add(athletes.get(i));
+                    ArrayList<Sport> currentAthleteSports = athletes.get(i).sports;
+                    if (currentAthleteSports.get(j).getType().equals(sportType)
+                            && currentAthleteSports.get(j).getDiscipline().equals(discipline)) {
+                        sportAthletes.add(athletes.get(i));
                     }
                 }
             }
             
-            disciplineAthletes.sort(comparator);
-            for (int i = 0; i < disciplineAthletes.size(); i++) {
-                int medals = disciplineAthletes.get(i).bronzes + disciplineAthletes.get(i).silvers 
-                        + disciplineAthletes.get(i).golds;
-                Terminal.printLine(String.format("%04d", disciplineAthletes.get(i).id) + " "
-                        + disciplineAthletes.get(i).getFirstName() + " "
-                        + disciplineAthletes.get(i).getLastName() + " " + medals);
+            sportAthletes.sort(comparator);
+            for (int i = 0; i < sportAthletes.size(); i++) {
+                int medals = sportAthletes.get(i).bronzes + sportAthletes.get(i).silvers 
+                        + sportAthletes.get(i).golds;
+                Terminal.printLine(String.format("%04d", sportAthletes.get(i).id) + " "
+                        + sportAthletes.get(i).getFirstName() + " "
+                        + sportAthletes.get(i).getLastName() + " " + medals);
             }
         } catch (IllegalArgumentException e) {
-            Terminal.printError("Please enter a valid discipline");
+            Terminal.printError("Please enter a valid sport type and discipline");
         }
     }
     

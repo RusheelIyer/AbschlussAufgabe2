@@ -207,10 +207,10 @@ public class Main {
     
     private static void printAthletes(boolean loggedIn, String[] params) {
         try {
-            if (!loggedIn || params == null || params.length != 1) {
+            if (!loggedIn || params == null || params.length != 2) {
                 throw new IllegalArgumentException();
             }
-            Athlete.listAthletes(params[0]);
+            Athlete.listAthletes(params[0], params[1]);
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter a valid command");
         }
