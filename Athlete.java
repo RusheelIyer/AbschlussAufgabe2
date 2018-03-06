@@ -1,40 +1,14 @@
 package edu.kit.informatik;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.TreeMap;
 
-public class Athlete extends Person {
+public class Athlete extends Person implements Comparable<Athlete> {
     
     private static ArrayList<Athlete> athletes = new ArrayList<Athlete>();
-    /**
-     * Create comparator to sort the athletes in the array list descending according to
-     * the number of medals s/he has won, or ascending according to the ID if the number of medals won are the same
-     */
-    private static Comparator<Athlete> comparator = new Comparator<Athlete>() {
-        
-        @Override
-        public int compare(Athlete athleteOne, Athlete athleteTwo) {
-            int athleteOneMedals = athleteOne.bronzes + athleteOne.silvers + athleteOne.golds;
-            int athleteTwoMedals = athleteTwo.bronzes + athleteTwo.silvers + athleteTwo.golds;
-            if (athleteOneMedals < athleteTwoMedals) {
-                return 1;
-            } else if (athleteOneMedals == athleteTwoMedals) {
-                if (athleteOne.id < athleteTwo.id) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            } else {
-                return -1;
-            }
-            
-        }
-        
-    };
-    
     private short id;
     private IOC country;
-    private ArrayList<Sport> sports = new ArrayList<Sport>();
+    private TreeMap<Sport, Integer> sports = new TreeMap<Sport, Integer>();
     private int golds;
     private int silvers;
     private int bronzes;
@@ -75,10 +49,10 @@ public class Athlete extends Person {
                     Sport current = Sport.getSports().get(i);
                     if (current.getType().equals(sportType) && current.getDiscipline().equals(discipline)) {
                         sportExists = true;
-                        if (existingAthlete.sports.contains(current)) {
+                        if (existingAthlete.sports.keySet().contains(current)) {
                             throw new IllegalArgumentException();
                         } else {
-                            existingAthlete.sports.add(current);   
+                            existingAthlete.sports.put(current, 0);   
                         }
                     }
                 }
@@ -103,7 +77,7 @@ public class Athlete extends Person {
                     Sport current = Sport.getSports().get(i);
                     if (current.getType().equals(sportType) && current.getDiscipline().equals(discipline)) {
                         sportExists = true;
-                        this.sports.add(current);
+                        this.sports.put(current, 0);
                     }
                 }
                 if (!sportExists) {
@@ -137,38 +111,54 @@ public class Athlete extends Person {
         
         try {
             
-            boolean sportExists = false;
+            Sport listSport = null;
             for (int i = 0; i < Sport.getSports().size(); i++) {
                 Sport current = Sport.getSports().get(i);
                 if (current.getType().equals(sportType) && current.getDiscipline().equals(discipline)) {
-                    sportExists = true;
+                    listSport = current;
                 }
             }
             
-            if (!sportExists) {
-                throw new IllegalArgumentException();
+            if (listSport == null) {
+                throw new NullPointerException();
             }
             
-            ArrayList<Athlete> sportAthletes = new ArrayList<Athlete>();
+            TreeMap<Athlete, Integer> sportAthletes = new TreeMap<Athlete, Integer>();
             for (int i = 0; i < athletes.size(); i++) {
-                for (int j = 0; j < athletes.get(i).sports.size(); j++) {
-                    ArrayList<Sport> currentAthleteSports = athletes.get(i).sports;
-                    if (currentAthleteSports.get(j).getType().equals(sportType)
-                            && currentAthleteSports.get(j).getDiscipline().equals(discipline)) {
-                        sportAthletes.add(athletes.get(i));
+                if (athletes.get(i).sports.keySet().contains(listSport)) {
+                    sportAthletes.put(athletes.get(i), athletes.get(i).sports.get(listSport));
+                }
+            }
+            
+            Athlete[] sortedAthletes = new Athlete[sportAthletes.size()];
+            int index = 0;
+            for (Athlete athlete : sportAthletes.keySet()) {
+                sortedAthletes[index] = athlete;
+                index++;
+            }
+            int count = 1;
+            while (count < sortedAthletes.length) {
+                for (int i = 0; i < sortedAthletes.length - 1; i++) {
+                    if (sortedAthletes[i].sports.get(listSport) < sortedAthletes[i + 1].sports.get(listSport)) {
+                        Athlete temp = sortedAthletes[i + 1];
+                        sortedAthletes[i + 1] = sortedAthletes[i];
+                        sortedAthletes[i] = temp;
+                    } else if (sortedAthletes[i].sports.get(listSport) == sortedAthletes[i + 1].sports.get(listSport)) {
+                        if (sortedAthletes[i].id > sortedAthletes[i + 1].id) {
+                            Athlete temp = sortedAthletes[i + 1];
+                            sortedAthletes[i + 1] = sortedAthletes[i];
+                            sortedAthletes[i] = temp;
+                        }
                     }
                 }
+                count++;
+            }
+            for (Athlete athlete : sortedAthletes) {
+                Terminal.printLine(String.format("%04d", athlete.id) + " " + athlete.getFirstName()
+                + " " + athlete.getLastName() + " " + athlete.sports.get(listSport));
             }
             
-            sportAthletes.sort(comparator);
-            for (int i = 0; i < sportAthletes.size(); i++) {
-                int medals = sportAthletes.get(i).bronzes + sportAthletes.get(i).silvers 
-                        + sportAthletes.get(i).golds;
-                Terminal.printLine(String.format("%04d", sportAthletes.get(i).id) + " "
-                        + sportAthletes.get(i).getFirstName() + " "
-                        + sportAthletes.get(i).getLastName() + " " + medals);
-            }
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException e) {
             Terminal.printError("Please enter a valid sport type and discipline");
         }
     }
@@ -196,7 +186,7 @@ public class Athlete extends Person {
      * 
      * @return the athlete's sport information
      */
-    public ArrayList<Sport> getSports() {
+    public TreeMap<Sport, Integer> getSports() {
         return this.sports;
     }
     
@@ -252,5 +242,14 @@ public class Athlete extends Person {
      */
     public void addBronze() {
         this.bronzes = this.bronzes + 1;
+    }
+
+    @Override
+    public int compareTo(Athlete athlete) {
+        if (this == athlete) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 }

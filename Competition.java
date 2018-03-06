@@ -8,9 +8,6 @@ public class Competition {
     private Athlete athlete;
     private short year;
     private Sport sport;
-    private boolean gold;
-    private boolean silver;
-    private boolean bronze;
     
     /**
      * Constructor for Competition
@@ -41,7 +38,7 @@ public class Competition {
                 Athlete currentAthlete = Athlete.getAthletes().get(i);
                 if ((currentAthlete.getID() == Short.parseShort(athleteID))
                         && currentAthlete.getCountry().getCountryName().equals(countryName)) {
-                    if (this.sport != null && currentAthlete.getSports().contains(this.sport)) {
+                    if (this.sport != null && currentAthlete.getSports().containsKey(this.sport)) {
                         athleteExists = true;
                         this.athlete = currentAthlete;
                     } else {
@@ -83,18 +80,17 @@ public class Competition {
             } else if ((gold == 1 && silver == 1) || (gold == 1 && bronze == 1) || (bronze == 1 && silver == 1)) {
                 throw new IllegalArgumentException();
             } else {
-                this.gold = (gold == 1) ? true : false;
-                this.silver = (silver == 1) ? true : false;
-                this.bronze = (bronze == 1) ? true : false;
-                
-                if (this.gold) {
+                if (gold == 1) {
                     this.athlete.addGold();
+                    this.athlete.getSports().put(this.sport, this.athlete.getSports().get(this.sport) + 1);
                 }
-                if (this.silver) {
+                if (silver == 1) {
                     this.athlete.addSilver();
+                    this.athlete.getSports().put(this.sport, this.athlete.getSports().get(this.sport) + 1);
                 }
-                if (this.bronze) {
+                if (bronze == 1) {
                     this.athlete.addBronze();
+                    this.athlete.getSports().put(this.sport, this.athlete.getSports().get(this.sport) + 1);
                 }
             }
             competitions.add(this);

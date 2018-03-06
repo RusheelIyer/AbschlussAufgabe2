@@ -3,7 +3,7 @@ package edu.kit.informatik;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class Sport {
+public class Sport implements Comparable<Sport> {
     
     private static ArrayList<Sport> sports = new ArrayList<Sport>();
     /**
@@ -14,7 +14,6 @@ public class Sport {
         
         @Override
         public int compare(Sport sportOne, Sport sportTwo) {
-            
             if (sportOne.sportType.compareTo(sportTwo.sportType) < 0) {
                 return -1;
             } else if (sportOne.sportType.compareTo(sportTwo.sportType) == 0) {
@@ -26,7 +25,6 @@ public class Sport {
             } else {
                 return 1;
             }
-            
         }
     };
     
@@ -106,5 +104,14 @@ public class Sport {
      */
     public String getDiscipline() {
         return this.discipline;
+    }
+
+    @Override
+    public int compareTo(Sport sport) {
+        if (this == sport) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 }
