@@ -43,21 +43,23 @@ public class Athlete extends Person implements Comparable<Athlete> {
             } else {
                 throw new IllegalArgumentException();
             }
-            if (athleteExists) {   
-                boolean sportExists = false;
-                for (int i = 0; i < Sport.getSports().size(); i++) {
-                    Sport current = Sport.getSports().get(i);
-                    if (current.getType().equals(sportType) && current.getDiscipline().equals(discipline)) {
-                        sportExists = true;
-                        if (existingAthlete.sports.keySet().contains(current)) {
-                            throw new IllegalArgumentException();
-                        } else {
-                            existingAthlete.sports.put(current, 0);   
-                        }
-                    }
+            
+            Sport inputSport = null;
+            for (int i = 0; i < Sport.getSports().size(); i++) {
+                Sport current = Sport.getSports().get(i);
+                if (current.getType().equals(sportType) && current.getDiscipline().equals(discipline)) {
+                    inputSport = current;
                 }
-                if (!sportExists) {
+            }
+            if (inputSport == null) {
+                throw new NullPointerException();
+            }
+            
+            if (athleteExists) {   
+                if (existingAthlete.sports.keySet().contains(inputSport)) {
                     throw new IllegalArgumentException();
+                } else {
+                    existingAthlete.sports.put(inputSport, 0);   
                 }
             } else {
                 this.id = Short.parseShort(id);
@@ -72,23 +74,15 @@ public class Athlete extends Person implements Comparable<Athlete> {
                 if (!countryExists) {
                     throw new IllegalArgumentException();
                 }
-                boolean sportExists = false;
-                for (int i = 0; i < Sport.getSports().size(); i++) {
-                    Sport current = Sport.getSports().get(i);
-                    if (current.getType().equals(sportType) && current.getDiscipline().equals(discipline)) {
-                        sportExists = true;
-                        this.sports.put(current, 0);
-                    }
-                }
-                if (!sportExists) {
-                    throw new IllegalArgumentException();
-                }
+                this.sports.put(inputSport, 0);
                 this.country.getAthletes().add(this);
                 athletes.add(this);
             }
             Terminal.printLine("OK");
         } catch (IllegalArgumentException e) {
             Terminal.printError("Please enter valid Athlete Details");
+        } catch (NullPointerException n) {
+            Terminal.printError("Please enter a valid sport");
         }
     }
     
