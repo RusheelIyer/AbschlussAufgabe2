@@ -159,10 +159,10 @@ public class IOC {
         
         countries.sort(medalComparator);
         for (int i = 0; i < countries.size(); i++) {
-            Terminal.printLine("(" + (i + 1) + " " + String.format("%03d", countries.get(i).id)
-                    + " " + countries.get(i).code + " " + countries.get(i).countryName + " " 
-                    + countries.get(i).goldMedals() + " " + countries.get(i).silverMedals() + " "
-                    + countries.get(i).bronzeMedals() + " " + countries.get(i).calculateMedals() + ")");
+            Terminal.printLine("(" + (i + 1) + "," + String.format("%03d", countries.get(i).id)
+                    + "," + countries.get(i).code + "," + countries.get(i).countryName + "," 
+                    + countries.get(i).goldMedals() + "," + countries.get(i).silverMedals() + ","
+                    + countries.get(i).bronzeMedals() + "," + countries.get(i).calculateMedals() + ")");
         }
         
     }
