@@ -68,9 +68,6 @@ public class Competition {
                 if (currentComp.athlete.equals(this.athlete) && this.year == currentComp.year 
                         && currentComp.sport.getType().equals(sportType)
                         && currentComp.sport.getDiscipline().equals(discipline)) {
-                    for (int j = 0; j < competitions.size(); j++) {
-                        Terminal.printLine(competitions.get(j).athlete.getFirstName());
-                    }
                     throw new IllegalArgumentException();
                 }
             }
