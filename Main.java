@@ -23,10 +23,10 @@ public class Main {
                     addAdmin(loggedIn, params);
                     break;
                 case "login-admin":
-                    loggedIn = loginAdmin(loggedIn, params);
+                    loggedIn = (loginAdmin(loggedIn, params)) ? true : loggedIn;
                     break;
                 case "logout-admin":
-                    loggedIn = logout(loggedIn, params);
+                    loggedIn = (logout(loggedIn, params)) ? loggedIn : false;
                     break;
                 case "add-sports-venue":
                     newSportsVenue(loggedIn, params);
@@ -95,13 +95,13 @@ public class Main {
     
     private static boolean loginAdmin(boolean loggedIn, String[] params) {
         try {
-            if (loggedIn || params == null | params.length != 2) {
+            if (loggedIn || params == null || params.length != 2) {
                 throw new IllegalArgumentException();
             }
             Admin.loginAdmin(params[0], params[1]);
             return true;
         } catch (IllegalArgumentException e) {
-            Terminal.printError("Please enter a valid command and make sure username and password details correct");
+            Terminal.printError("Please enter valid details and make sure no other admin is logged in");
             return false;
         }
     }
@@ -114,7 +114,7 @@ public class Main {
             Terminal.printLine("OK");
             return false;
         } catch (IllegalArgumentException e) {
-            Terminal.printError("Please enter a valid command and make sure no other admin is logged in");
+            Terminal.printError("Please enter a valid command");
             return true;
         }
     }
