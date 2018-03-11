@@ -72,7 +72,7 @@ public class Competition {
                 }
             }
             
-            if ((gold != 1 && gold != 0) && (silver != 1 || silver != 0) && (bronze != 0 && bronze != 1)) {
+            if ((gold != 1 && gold != 0) || (silver != 1 && silver != 0) || (bronze != 0 && bronze != 1)) {
                 throw new IllegalArgumentException();
             } else if ((gold == 1 && silver == 1) || (gold == 1 && bronze == 1) || (bronze == 1 && silver == 1)) {
                 throw new IllegalArgumentException();
