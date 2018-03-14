@@ -116,7 +116,7 @@ public class IOC {
             }
             this.countryName = countryName;
             
-            if (establishmentYear.matches("[0-9]{4}")) {
+            if (establishmentYear.matches("[0-9]{4}") && Integer.parseInt(establishmentYear) >= 1) {
                 this.establishmentYear = Integer.parseInt(establishmentYear);
             } else {
                 throw new IllegalArgumentException();

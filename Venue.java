@@ -81,7 +81,7 @@ public class Venue {
             this.location = location;
             this.venueName = venueName;
             
-            if (openingYear.matches("[0-9]{4}")) {
+            if (openingYear.matches("[0-9]{4}") && Short.parseShort(openingYear) >= 1) {
                 this.openingYear = Short.parseShort(openingYear);
             } else {
                 throw new IllegalArgumentException();
